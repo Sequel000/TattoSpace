@@ -1,34 +1,84 @@
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
 <style>
-    /* Весь CSS пишем прямо здесь */
     .city-button {
         position: relative; 
         width: 100%; 
-        height: 100%; 
+        /* Соотношение сторон 16:9. Теперь высота подстроится под ширину автоматически */
+        aspect-ratio: 16 / 9; 
         border-radius: 12px; 
         overflow: hidden; 
         cursor: pointer; 
-        font-family: 'Segoe UI', Roboto, sans-serif;
+        /* Используем подключенный шрифт */
+        font-family: 'Playfair Display', serif;
         background: #000;
+        box-sizing: border-box;
     }
+
     .city-button img {
-        width: 100%; height: 100%; object-fit: cover; display: block;
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        display: block;
+        transition: transform 0.5s ease;
     }
+
     .dark-layer {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-        background: black; opacity: 0.3; transition: opacity 0.3s ease; z-index: 1;
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background: black; 
+        opacity: 0.35; 
+        transition: opacity 0.3s ease; 
+        z-index: 1;
     }
+
     .btn-text {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-        display: flex; justify-content: center; align-items: center; 
-        color: white; font-size: 22px; font-weight: 600; 
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: all 0.3s ease; z-index: 2;
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        color: white; 
+        
+        /* РАСТЯГИВАЕМЫЙ ТЕКСТ: 
+           минимум 16px, оптимально 5% от ширины контейнера, максимум 40px */
+        font-size: clamp(16px, 5cqw, 40px); 
+        container-type: inline-size; /* Позволяет тексту ориентироваться на размер родителя */
+        
+        font-weight: 600; 
+        text-shadow: 0 2px 10px rgba(0,0,0,0.8); 
+        transition: all 0.3s ease; 
+        z-index: 2;
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
-    .city-button:hover .dark-layer { opacity: 0.7; }
-    .city-button:hover .btn-text { transform: scale(1.05); text-shadow: 0 0 15px rgba(255,255,255,0.6); }
+
+    /* ЭФФЕКТЫ ПРИ НАВЕДЕНИИ */
+    .city-button:hover .dark-layer { 
+        opacity: 0.7; 
+    }
+    
+    .city-button:hover .btn-text { 
+        transform: scale(1.05); 
+        text-shadow: 0 0 20px rgba(255,255,255,0.5); 
+    }
+
+    .city-button:hover img {
+        transform: scale(1.03); /* Легкий зум картинки */
+    }
 </style>
 
 <div class="city-button">
-    <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1000&q=80" alt="Город">
+    <img src="https://cdn.jsdelivr.net/gh/Sequel000/TattoSpace@main/Tatto%20Space%20IMG/image/City/Kagul.jpeg" alt="Город">
     <div class="dark-layer"></div>
-    <div class="btn-text">Показать другие города</div>
+    <div class="btn-text">Кагул</div>
 </div>
