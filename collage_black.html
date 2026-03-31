@@ -4,115 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Подключаем шрифт Playfair Display */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+    /* 1. КРИТИЧЕСКИ ВАЖНО: Убираем отступы и запрещаем скролл самого документа */
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Это убирает ползунок */
+        height: 100%;
+        width: 100%;
+        background-color: #000;
+    }
 
-        /* Обнуляем отступы страницы */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            /* Сделали общий фон страницы черным */
-            background-color: #000; 
-        }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
 
-        /* ГЛАВНЫЙ КОНТЕЙНЕР КОЛЛАЖА */
+    .collage-container {
+        display: grid;
+        width: 100%;
+        height: 100vh; /* Используем всю высоту окна */
+        grid-template-columns: 1.2fr 1fr;
+        grid-template-rows: auto 1fr 1fr auto;
+        gap: 12px;
+        padding: 12px;
+        box-sizing: border-box; /* Чтобы padding не увеличивал размер блока */
+        background-color: #000;
+    }
+
+    /* Стили объектов (без изменений) */
+    .obj-1 { grid-column: 1 / -1; grid-row: 1; min-height: 150px; }
+    .obj-2 { grid-column: 1; grid-row: 2 / 4; }
+    .obj-3 { grid-column: 2; grid-row: 2; }
+    .obj-4 { grid-column: 2; grid-row: 3; }
+    .obj-5 { grid-column: 1 / -1; grid-row: 4; min-height: 150px; }
+
+    /* Базовый стиль кнопки */
+    .city-button {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .city-button img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .dark-layer {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: black;
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .btn-text {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        z-index: 2;
+        text-align: center;
+    }
+
+    /* 2. ИСПРАВЛЕННЫЙ MEDIA-БЛОК */
+    @media (max-width: 768px) {
         .collage-container {
-            display: grid;
-            width: 100%;
-            min-height: 100vh;
-            
-            /* Настройка колонок */
-            grid-template-columns: 1.2fr 1fr;
-            
-            /* Настройка рядов */
-            grid-template-rows: auto 1fr 1fr auto;
-            
-            /* ГЛАВНОЕ ИЗМЕНЕНИЕ: Черный фон и зазоры */
-            gap: 12px; /* Ширина черных полос */
-            padding: 12px; /* Отступ от краев экрана */
-            box-sizing: border-box;
-            background-color: #000; /* Цвет пространства между картинками */
+            /* Оставляем сетку, но делаем её более компактной */
+            grid-template-columns: 1fr 1fr;
+            /* Используем minmax, чтобы избежать наслоения как на фото */
+            grid-template-rows: minmax(100px, auto) minmax(140px, 1fr) minmax(140px, 1fr) minmax(100px, auto);
+            gap: 8px;
+            padding: 8px;
+            height: 100%; /* Гарантируем, что сетка не вылезает за пределы */
         }
 
-        /* ОПРЕДЕЛЕНИЕ ПОЗИЦИЙ ДЛЯ КАЖДОГО ОБЪЕКТА */
-        .obj-1 { grid-column: 1 / -1; grid-row: 1; min-height: 180px; }
-        .obj-2 { grid-column: 1; grid-row: 2 / 4; }
-        .obj-3 { grid-column: 2; grid-row: 2; }
-        .obj-4 { grid-column: 2; grid-row: 3; }
-        .obj-5 { grid-column: 1 / -1; grid-row: 4; min-height: 180px; }
-
-        /* СТИЛЬ КНОПКИ-КАРТОЧКИ */
-        .city-button {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 8px; /* Немного уменьшил радиус для строгости на черном фоне */
-            overflow: hidden;
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            background: #111; /* Темный фон-заглушка пока грузится фото */
-        }
-
-        .city-button img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* ТЕМНЫЙ СЛОЙ (ЗАТЕМНЕНИЕ) */
-        .dark-layer {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: black;
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
-        /* ТЕКСТ НА ФОТО */
         .btn-text {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: 600;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-            transition: all 0.3s ease;
-            z-index: 2;
-            text-align: center;
-            padding: 15px;
-            box-sizing: border-box;
+            font-size: 16px; /* Уменьшаем текст, чтобы не распирал блоки */
+            padding: 5px;
         }
 
-        /* ЭФФЕКТЫ ПРИ НАВЕДЕНИИ */
-        .city-button:hover .dark-layer {
-            opacity: 0.6;
-        }
-        .city-button:hover .btn-text {
-            transform: scale(1.05);
-        }
-
-        /* АДАПТИВНОСТЬ */
-        @media (max-width: 768px) {
-            .collage-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-                gap: 10px;
-            }
-            .obj-1, .obj-2, .obj-3, .obj-4, .obj-5 {
-                grid-column: 1;
-                grid-row: auto;
-                min-height: 250px;
-            }
-        }
-    </style>
+        /* Уточняем позиции для мобильных, чтобы не было нахлеста */
+        .obj-1 { grid-row: 1; min-height: 100px; }
+        .obj-2 { grid-row: 2 / 4; }
+        .obj-3 { grid-row: 2; }
+        .obj-4 { grid-row: 3; }
+        .obj-5 { grid-row: 4; min-height: 100px; }
+    }
+</style>
     <title>Black Collage</title>
 </head>
 <body>
