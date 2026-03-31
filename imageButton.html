@@ -1,0 +1,34 @@
+<style>
+    /* Весь CSS пишем прямо здесь */
+    .city-button {
+        position: relative; 
+        width: 100%; 
+        height: 100%; 
+        border-radius: 12px; 
+        overflow: hidden; 
+        cursor: pointer; 
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        background: #000;
+    }
+    .city-button img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .dark-layer {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+        background: black; opacity: 0.3; transition: opacity 0.3s ease; z-index: 1;
+    }
+    .btn-text {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+        display: flex; justify-content: center; align-items: center; 
+        color: white; font-size: 22px; font-weight: 600; 
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: all 0.3s ease; z-index: 2;
+    }
+    .city-button:hover .dark-layer { opacity: 0.7; }
+    .city-button:hover .btn-text { transform: scale(1.05); text-shadow: 0 0 15px rgba(255,255,255,0.6); }
+</style>
+
+<div class="city-button">
+    <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1000&q=80" alt="Город">
+    <div class="dark-layer"></div>
+    <div class="btn-text">Показать другие города</div>
+</div>
